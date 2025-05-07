@@ -8,7 +8,7 @@
             </button>
         </div>
 
-        <!-- ✅ ตัวกรองความสำคัญ -->
+        <!-- ตัวกรองความสำคัญ -->
         <div class="mb-6 flex items-center gap-4">
             <label class="text-gray-700 font-medium">กรองความสำคัญ:</label>
             <select v-model="filterPriority"
@@ -85,7 +85,7 @@ let isMounted = false;
 onMounted(async () => {
     isMounted = true;
     await fetchTodos();
-    if (isMounted) updateCount(); // ✅ ป้องกันเรียกตอน component ถูกถอดออก
+    if (isMounted) updateCount(); // ป้องกันเรียกตอน component ถูกถอดออก
 });
 
 onUnmounted(() => {
@@ -99,8 +99,11 @@ function startAdd() {
         priority: 2,
         is_completed: false,
     };
+    console.log("🚀 Adding new todo");
     formVisible.value = true;
+    formKey.value++; // เพิ่มการรีเฟรช key เพื่อให้คอมโพเนนต์ฟอร์มใหม่ถูกสร้าง
 }
+
 
 function startEdit(todo) {
     editingTodo.value = { ...todo };
@@ -111,7 +114,7 @@ const formKey = ref(0);
 
 function resetForm() {
     editingTodo.value = null;
-    formKey.value++; // ✅ บังคับ Vue สร้าง component ใหม่
+    formKey.value++; // บังคับ Vue สร้าง component ใหม่
 }
 
 async function handleSubmit(todo) {
@@ -122,17 +125,18 @@ async function handleSubmit(todo) {
             await axios.post("/todos", todo);
         }
         await fetchTodos();
-        resetForm(); // ✅ เคลียร์ค่า form
-        formVisible.value = false; // ✅ ซ่อนฟอร์ม (optional แต่แนะนำ)
+        resetForm(); // รีเซ็ตฟอร์ม
+        formVisible.value = false; // ซ่อนฟอร์มเมื่อบันทึกเสร็จ
     } catch (err) {
         console.error("บันทึกงานล้มเหลว", err);
     }
 }
 
+
 async function handleDelete(todo) {
     try {
         await axios.delete(`/todos/${todo.id}?confirm=true`);
-        await fetchTodos(); // ✅ โหลดใหม่หลังลบ จะทำให้ visibleTodos ถูกอัปเดต
+        await fetchTodos(); // โหลดใหม่หลังลบ จะทำให้ visibleTodos ถูกอัปเดต
     } catch (err) {
         console.error("ลบงานผิดพลาด", err);
     }
@@ -143,7 +147,7 @@ async function toggleComplete(todo) {
         const updated = { ...todo, is_completed: !todo.is_completed };
         await axios.put(`/todos/${todo.id}`, updated);
 
-        // ✅ ลบออกทันทีถ้าทำเสร็จ
+        // ลบออกทันทีถ้าทำเสร็จ
         if (updated.is_completed) {
             todos.value = todos.value.filter((t) => t.id !== todo.id);
         } else {

@@ -1,5 +1,5 @@
 <template>
-    <div class="bg-white shadow-md rounded p-4 mb-4 border border-gray-200">
+    <div v-if="formVisible" class="bg-white shadow-md rounded p-4 mb-4 border border-gray-200">
         <h2 class="text-xl font-bold mb-4">
             {{ form.id ? "แก้ไขรายการ" : "เพิ่มรายการใหม่" }}
         </h2>
@@ -15,15 +15,15 @@
                 <textarea v-model="form.description" class="input" rows="3"></textarea>
             </div>
 
-                <div class="mb-2">
-                    <label class="block text-sm font-medium text-gray-700">ความสำคัญ</label>
-                    <select v-model.number="form.priority" class="input" required>
-                        <option :value="1">🔴 สำคัญมาก (ต้องรีบส่งด่วน)</option>
-                        <option :value="2">🟡 ระดับกลาง (พอมีเวลา)</option>
-                        <option :value="3">🟢 สำคัญน้อย (มีเวลาส่ง)</option>
-                    </select>
-                </div>
-            
+            <div class="mb-2">
+                <label class="block text-sm font-medium text-gray-700">ความสำคัญ</label>
+                <select v-model.number="form.priority" class="input" required>
+                    <option :value="1">🔴 สำคัญมาก (ต้องรีบส่งด่วน)</option>
+                    <option :value="2">🟡 ระดับกลาง (พอมีเวลา)</option>
+                    <option :value="3">🟢 สำคัญน้อย (มีเวลาส่ง)</option>
+                </select>
+            </div>
+
             <div class="mb-4">
                 <label class="inline-flex items-center">
                     <input type="checkbox" v-model="form.is_completed" class="mr-2" />
@@ -35,8 +35,9 @@
                 <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
                     บันทึก
                 </button>
+
                 <button type="button" class="bg-gray-300 text-gray-800 px-4 py-2 rounded hover:bg-gray-400"
-                    @click="$emit('cancel')">
+                    @click="handleCancel">
                     ยกเลิก
                 </button>
             </div>
@@ -45,8 +46,11 @@
 </template>
 
 <script setup>
-import { reactive, watch } from "vue";
+import { reactive, watch, ref } from "vue";
 import { toRaw } from "vue";
+
+// ตัวแปรที่ใช้ในการควบคุมการแสดงผลฟอร์ม
+const formVisible = ref(true);
 
 const props = defineProps({
     initialTodo: {
@@ -71,7 +75,7 @@ const form = reactive({
     is_completed: props.initialTodo.is_completed,
 });
 
-// ✅ Sync เมื่อ initialTodo เปลี่ยน
+// การตรวจสอบและการอัพเดตค่าของ form เมื่อ props มีการเปลี่ยนแปลง
 watch(
     () => props.initialTodo,
     (newVal) => {
@@ -88,6 +92,12 @@ function handleSubmit() {
     emit("submit", toRaw(form));
 }
 
+function handleCancel() {
+    console.log("🚀 Canceling form");
+    formVisible.value = false; // ซ่อนฟอร์มเมื่อกดยกเลิก
+    Object.assign(form, props.initialTodo); // รีเซ็ตค่าฟอร์ม
+    emit("cancel"); // ส่ง event cancel ไปยัง parent
+}
 </script>
 
 <style scoped>
