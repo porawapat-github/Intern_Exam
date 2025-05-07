@@ -8,6 +8,7 @@
 todo_app/
 ├── backend/         # โค้ดส่วน Backend (Golang)
 ├── frontend/        # โค้ดส่วน Frontend (Vue3)
+└── README.md
 ```
 
 ## การติดตั้ง
