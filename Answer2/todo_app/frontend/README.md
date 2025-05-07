@@ -1,48 +1,61 @@
-# frontend
+# Todo Application
 
-This template should help get you started developing with Vue 3 in Vite.
+แอปพลิเคชัน Todo ที่พัฒนาด้วย Golang (Backend) และ Vue3 (Frontend)
 
-## Recommended IDE Setup
+## โครงสร้างโปรเจค
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
-
-## Customize configuration
-
-See [Vite Configuration Reference](https://vite.dev/config/).
-
-## Project Setup
-
-```sh
-npm install
+```
+todo_app/
+├── backend/         # โค้ดส่วน Backend (Golang)
+├── frontend/        # โค้ดส่วน Frontend (Vue3)
+└── README.md
 ```
 
-### Compile and Hot-Reload for Development
+## การติดตั้ง
 
-```sh
-npm run dev
-```
+### Backend (Golang)
 
-### Compile and Minify for Production
+1. ติดตั้ง Golang จาก [golang.org](https://golang.org)
 
-```sh
-npm run build
-```
+2. เข้าไปที่โฟลเดอร์ backend:
+   ```bash
+   cd backend
+   ```
+3. ติดตั้ง dependencies:
+   ```bash
+   go mod download
+   ```
+4. รันเซิร์ฟเวอร์:
+   ```bash
+   go run main.go
+   ```
 
+### Frontend (Vue3)
 
+1. ติดตั้ง Node.js จาก [nodejs.org](https://nodejs.org)
 
-----------
+2. เข้าไปที่โฟลเดอร์ frontend:
+   ```bash
+   cd frontend
+   ```
+3. ติดตั้ง dependencies:
+   ```bash
+   npm install
+   ```
+4. รันแอปพลิเคชัน:
+   ```bash
+   npm run dev
+   ```
 
-ผมต้องการให้ไฟล์ TodoForm.vue,TodoHistory.vue, TodoItem.vue, TodoList.vue หรือเพิ่ม animation ให้ดู smooth ขึ้น
-ต้องการให้เชื่อมกับ responsive เต็มจอมือถือด้วยครับ
+## ฟีเจอร์
 
------------
+- สร้าง Todo 
+- แสดงรายการ Todo ทั้งหมด
+- แก้ไขรายการ Todo 
+- ลบ Todo 
 
-จัดการให้หน่อยครับพี่
+## เทคโนโลยีที่ใช้
 
------------
-
-เพิ่ม calendar เวลา ให้หน่อยครับ เพื่อระบุวันที่ส่ง
-เดี๋ยวผมจะแนบไฟล์ backend ไปให้ตรวจสอบด้วยว่าต้องเพิ่มอะไรหรือป่าว
-(ไม่ต้องเพิ่มอะไรนอกเหนือคำสั่งนะครับ)
-
------------
+- Backend: Golang
+- Frontend: Vue3
+- Database: PostgreSQL
